@@ -1,0 +1,10 @@
+# cat=Settings/O; type=string; label= Twitch Token
+token =
+# cat=Settings/O; type=string; label= Twitch Client ID
+clientId =
+# cat=Settings/O; type=string; label= Twitch Display Type (iframe|javascript)
+display = iframe
+# cat=Settings/O; type=int; label= Width for Twitch thumbnail
+width = 800
+# cat=Settings/O; type=int; label= Height for Twitch thumbnail
+height = 450
