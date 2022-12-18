@@ -29,7 +29,7 @@ class TwitchHelper extends AbstractOEmbedHelper
         $clientId = $extConf['clientId'] ?? '';
 
         $oEmbedUrl = $this->getOEmbedUrl($mediaId);
-        $requestFactory = GeneralUtility::makeInstanceForDi(RequestFactory::class);
+        $requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
         $additionalOptions = [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
@@ -68,9 +68,8 @@ class TwitchHelper extends AbstractOEmbedHelper
         return $this->transformMediaIdToFile($videoId, $targetFolder, $this->extension);
     }
 
-    public function getPublicUrl(File $file, $relativeToCurrentScript = false)
+    public function getPublicUrl(File $file)
     {
-        // @deprecated $relativeToCurrentScript since v11, will be removed in TYPO3 v12.0
         $videoId = $this->getOnlineMediaId($file);
 
         return sprintf('https://twitch.tv/videos/%s', rawurlencode($videoId));
@@ -93,9 +92,7 @@ class TwitchHelper extends AbstractOEmbedHelper
         if ($oEmbed) {
             $metaData['width'] = $extConf['width'] ?? 800;
             $metaData['height'] = $extConf['height'] ?? 450;
-            if (empty($file->getProperty('title'))) {
-                $metaData['title'] = $oEmbed['title'] ?? '';
-            }
+            $metaData['title'] = $oEmbed['title'] ?? '';
             $thumbnailUrl = $oEmbed['thumbnail_url'] ?? '';
             $thumbnailUrl = str_replace('%{width}', (string)$metaData['width'], $thumbnailUrl);
             $thumbnailUrl = str_replace('%{height}', (string)$metaData['height'], $thumbnailUrl);

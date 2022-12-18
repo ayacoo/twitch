@@ -24,6 +24,8 @@ this token.
 In the TYPO3 Install Tool you can now store the two settings "Token" and "Client Id". Without this data there will be
 errors in the backend, and we will not get any data from Twitch.
 
+It may well be that the token needs to be updated regularly.
+
 ### 2.2 Installation
 
 #### Installation using Composer
@@ -58,13 +60,22 @@ Clips are excerpts from videos. If you want to enter them specifically, you can 
 parameter. If you prefer to have the clips as data sets, you can also register a MediaViewHelper relatively easily. The
 structure is comparable to the Twitch videos.
 
+### 2.4 Backend Preview
+
+In the backend, the preview is used by TextMediaRenderer. For online media, this only displays the provider's icon, in this case twitch. If you want to display the thumbnail, for example, you need your own renderer that overwrites Textmedia. An example renderer is available in the project. Caution: This overwrites all text media elements, so only use this renderer as a basis.
+
+You register a renderer in the TCA `Configuration/TCA/tt_content.php` with `$GLOBALS['TCA']['tt_content']['types']['textmedia']['previewRenderer'] = \Ayacoo\Twitch\Rendering\TwitchPreviewRenderer::class;`
+
+Documentation: https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/ContentElements/CustomBackendPreview.html
+
 ## 3 Administration corner
 
 ### 3.1 Versions and support
 
-| Twitch | TYPO3 | PHP   | Support / Development                   |
-|--------|-------|-------|---------------------------------------- |
-| 1.x    | 11.x  | 8.0   | features, bugfixes, security updates    |
+| Twitch | TYPO3 | PHP | Support / Development                |
+|--------|-------|-----|--------------------------------------|
+| 2.x    | 12.x  | 8.1 | features, bugfixes, security updates |
+| 1.x    | 11.x  | 8.0 | bugfixes, security updates           |
 
 ### 3.2 Release Management
 
@@ -87,18 +98,14 @@ to accept only bugfixes if we can reproduce the issue.
 
 ## 4 Thanks / Notices
 
-Special thanks to Georg Ringer and his [news][3] extension. A good template to build a TYPO3 extension. Here, for
-example, the structure of README.md is used.
+- Special thanks to Georg Ringer and his [news][3] extension. A good template to build a TYPO3 extension. Here, for example, the structure of README.md is used.
+- Thanks also to b13 for the [online-media-updater][7] extension. Parts of it were allowed to be included in this extension.
 
 
 [1]: https://getcomposer.org/
-
 [2]: https://semver.org/
-
 [3]: https://github.com/georgringer/news
-
 [4]: https://dev.twitch.tv/docs/embed
-
 [5]: https://dev.twitch.tv/
-
 [6]: https://dev.twitch.tv/docs/cli
+[7]: https://github.com/b13/online-media-updater

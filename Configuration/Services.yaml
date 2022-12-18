@@ -1,0 +1,24 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  Ayacoo\Twitch\:
+    resource: '../Classes/*'
+    exclude:
+      - '../Classes/Domain/Model/*'
+      - '../Classes/Helper/*'
+
+  Ayacoo\Twitch\Event\FileListEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'ayacoo/twitch/filelist-listener'
+        event: TYPO3\CMS\Filelist\Event\ProcessFileListActionsEvent
+
+  Ayacoo\Twitch\Command\UpdateMetadataCommand:
+    tags:
+      - name: 'console.command'
+        command: 'twitch:updateMetadata'
+        description: 'Updates the Twitch metadata'
+        schedulable: true
