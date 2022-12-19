@@ -4,7 +4,7 @@
 		<header/>
 		<body>
 			<trans-unit id="twitch.update" resname="twitch.update">
-				<source>Update twitch preview image</source>
+				<source>Update Twitch preview image</source>
 			</trans-unit>
 			<trans-unit id="twitch.alert.success" resname="twitch.alert.success">
 				<source>Success</source>
@@ -13,7 +13,7 @@
 				<source>Twitch preview image updated</source>
 			</trans-unit>
 			<trans-unit id="twitch.alert.error" resname="twitch.alert.error">
-				<source>Failed to update twitch preview image</source>
+				<source>Failed to update Twitch preview image</source>
 			</trans-unit>
 		</body>
 	</file>

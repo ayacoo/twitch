@@ -4,6 +4,7 @@
 
 * Twitch videos can be created as a file in the TYPO3 file list
 * Twitch videos can be used and output with the text with media element
+* Update metadata via filelist action or command
 
 ## 2 Usage
 
@@ -64,7 +65,7 @@ structure is comparable to the Twitch videos.
 
 In the backend, the preview is used by TextMediaRenderer. For online media, this only displays the provider's icon, in this case twitch. If you want to display the thumbnail, for example, you need your own renderer that overwrites Textmedia. An example renderer is available in the project. Caution: This overwrites all text media elements, so only use this renderer as a basis.
 
-You register a renderer in the TCA `Configuration/TCA/tt_content.php` with `$GLOBALS['TCA']['tt_content']['types']['textmedia']['previewRenderer'] = \Ayacoo\Twitch\Rendering\TwitchPreviewRenderer::class;`
+You register a renderer in the TCA `Configuration/TCA/Overrides/tt_content.php` with `$GLOBALS['TCA']['tt_content']['types']['textmedia']['previewRenderer'] = \Ayacoo\Twitch\Rendering\TwitchPreviewRenderer::class;`
 
 Documentation: https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/ContentElements/CustomBackendPreview.html
 
@@ -109,3 +110,7 @@ to accept only bugfixes if we can reproduce the issue.
 [5]: https://dev.twitch.tv/
 [6]: https://dev.twitch.tv/docs/cli
 [7]: https://github.com/b13/online-media-updater
+
+## 5 Support
+
+If you are happy with the extension and would like to support it in any way, I would appreciate the support of social institutions.
