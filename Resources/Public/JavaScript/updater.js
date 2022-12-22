@@ -5,6 +5,7 @@
 
 import AjaxRequest from "@typo3/core/ajax/ajax-request.js"
 import Notification from "@typo3/backend/notification.js";
+import nprogress from "nprogress";
 
 
 class Updater {
@@ -23,7 +24,7 @@ class Updater {
       uid: event.currentTarget.dataset.fileUid
     }
 
-    //nprogress.start();
+    nprogress.start();
     new AjaxRequest(url)
       .post(payload).then(async function (response) {
       const data = await response.resolve();

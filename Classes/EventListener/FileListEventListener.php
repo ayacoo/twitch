@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ayacoo\Twitch\Event;
+namespace Ayacoo\Twitch\EventListener;
 
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
