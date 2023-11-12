@@ -1,0 +1,5 @@
+plugin.tx_twitch {
+    settings {
+        privacy = {$plugin.tx_twitch.settings.privacy}
+    }
+}

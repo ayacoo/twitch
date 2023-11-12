@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ayacoo\Twitch\Rendering;
 
+use Ayacoo\Twitch\Event\ModifyTwitchOutputEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
@@ -13,6 +15,9 @@ use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperInterface;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 /**
  * Twitch renderer class
@@ -23,6 +28,14 @@ class TwitchRenderer implements FileRendererInterface
      * @var OnlineMediaHelperInterface|false
      */
     protected $onlineMediaHelper;
+
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly ConfigurationManager     $configurationManager
+    )
+    {
+
+    }
 
     /**
      * Returns the priority of the renderer
@@ -55,10 +68,21 @@ class TwitchRenderer implements FileRendererInterface
 
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('twitch');
         if ($extConf['display'] === 'iframe') {
-            return $this->renderIframe($options, $videoId, (int)$width, (int)$height);
+            $output = $this->renderIframe($options, $videoId, (int)$width, (int)$height);
+            if ($this->getPrivacySetting()) {
+                $output = str_replace('src', 'data-name="script-twitch" data-src', $output);
+            }
+        } else {
+            $output = $this->renderJavaScript($options, $videoId, (int)$width, (int)$height);
+            if ($this->getPrivacySetting()) {
+                $output = str_replace('text/javascript', 'text/plain', $output);
+            }
         }
 
-        return $this->renderJavaScript($options, $videoId, (int)$width, (int)$height);
+        $modifyTwitchOutputEvent = $this->eventDispatcher->dispatch(
+            new ModifyTwitchOutputEvent($output)
+        );
+        return $modifyTwitchOutputEvent->getOutput();
     }
 
     /**
@@ -174,5 +198,24 @@ class TwitchRenderer implements FileRendererInterface
               };
               new Twitch.Player("twitch-embed' . $uniqueId . '", options);
             </script>';
+    }
+
+    /**
+     * @return bool
+     */
+    protected function getPrivacySetting(): bool
+    {
+        try {
+            $privacy = false;
+            $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+            );
+            if (isset($extbaseFrameworkConfiguration['plugin.']['tx_twitch.'])) {
+                $privacy = (bool)$extbaseFrameworkConfiguration['plugin.']['tx_twitch.']['settings.']['privacy'] ?? false;
+            }
+            return $privacy;
+        } catch (InvalidConfigurationTypeException $e) {
+            return false;
+        }
     }
 }

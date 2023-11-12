@@ -1,0 +1,6 @@
+plugin.tx_twitch {
+    settings {
+        # cat=plugin.tx_twitch//a; type=boolean; label=Privacy (Use data-src instead of src)
+        privacy = 0
+    }
+}

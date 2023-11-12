@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Ayacoo\Twitch\Helper;
 
+use GuzzleHttp\Exception\ClientException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Resource\File;
@@ -21,6 +24,8 @@ class TwitchHelper extends AbstractOEmbedHelper
      *
      * @param string $mediaId
      * @return array|null
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     protected function getOEmbedData($mediaId)
     {
@@ -36,14 +41,18 @@ class TwitchHelper extends AbstractOEmbedHelper
                 'Client-Id' => $clientId,
             ],
         ];
-        $response = $requestFactory->request($oEmbedUrl, 'GET', $additionalOptions);
-        if ($response->getStatusCode() === 200) {
-            $oEmbed = json_decode($response->getBody()->getContents(), true);
-            if ($oEmbed['data'][0]) {
-                return array_shift($oEmbed['data']);
+        try {
+            $response = $requestFactory->request($oEmbedUrl, 'GET', $additionalOptions);
+            if ($response->getStatusCode() === 200) {
+                $oEmbed = json_decode($response->getBody()->getContents(), true);
+                if ($oEmbed['data'][0]) {
+                    return array_shift($oEmbed['data']);
+                }
             }
+            return [];
+        } catch (ClientException $e) {
+            return [];
         }
-        return [];
     }
 
     protected function getOEmbedUrl($mediaId, $format = 'json')
@@ -68,7 +77,7 @@ class TwitchHelper extends AbstractOEmbedHelper
         return $this->transformMediaIdToFile($videoId, $targetFolder, $this->extension);
     }
 
-    public function getPublicUrl(File $file)
+    public function getPublicUrl(File $file, $relativeToCurrentScript = false)
     {
         $videoId = $this->getOnlineMediaId($file);
 
@@ -81,6 +90,8 @@ class TwitchHelper extends AbstractOEmbedHelper
      *
      * @param File $file
      * @return array with metadata
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function getMetaData(File $file)
     {
