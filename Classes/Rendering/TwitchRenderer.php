@@ -31,10 +31,8 @@ class TwitchRenderer implements FileRendererInterface
 
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ConfigurationManager     $configurationManager
-    )
-    {
-
+        private readonly ConfigurationManager $configurationManager
+    ) {
     }
 
     /**
@@ -59,10 +57,11 @@ class TwitchRenderer implements FileRendererInterface
      */
     public function canRender(FileInterface $file)
     {
-        return ($file->getMimeType() === 'video/twitch' || $file->getExtension() === 'twitch') && $this->getOnlineMediaHelper($file) !== false;
+        return ($file->getMimeType() === 'video/twitch' || $file->getExtension() === 'twitch') &&
+            $this->getOnlineMediaHelper($file) !== false;
     }
 
-    public function render(FileInterface $file, $width, $height, array $options = [], $usedPathsRelativeToCurrentScript = false)
+    public function render(FileInterface $file, $width, $height, array $options = [])
     {
         $videoId = $this->getVideoIdFromFile($file);
 
@@ -99,7 +98,8 @@ class TwitchRenderer implements FileRendererInterface
                 $orgFile = $orgFile->getOriginalFile();
             }
             if ($orgFile instanceof File) {
-                $this->onlineMediaHelper = GeneralUtility::makeInstance(OnlineMediaHelperRegistry::class)->getOnlineMediaHelper($orgFile);
+                $this->onlineMediaHelper = GeneralUtility::makeInstance(OnlineMediaHelperRegistry::class)
+                    ->getOnlineMediaHelper($orgFile);
             } else {
                 $this->onlineMediaHelper = false;
             }
@@ -148,8 +148,11 @@ class TwitchRenderer implements FileRendererInterface
             $urlParams[] = 'time=' . htmlspecialchars($options['time']);
         }
 
+        $iframeBase = '<iframe src="https://player.twitch.tv/?video=%s&parent=%s&%s" frameborder="0" ';
+        $iframeBase .= 'allowfullscreen="true" scrolling="no" height="%d" width="%d"></iframe>';
+
         return sprintf(
-            '<iframe src="https://player.twitch.tv/?video=%s&parent=%s&%s" frameborder="0" allowfullscreen="true" scrolling="no" height="%d" width="%d"></iframe>',
+            $iframeBase,
             rawurlencode($videoId),
             rawurlencode(GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY')),
             implode('&', $urlParams),

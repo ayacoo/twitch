@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ayacoo\Twitch\Tests\Unit\Helper;
 
 use Ayacoo\Twitch\Helper\TwitchHelper;
-use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\AbstractOEmbedHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 

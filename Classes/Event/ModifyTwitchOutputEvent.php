@@ -1,13 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ayacoo\Twitch\Event;
 
 final class ModifyTwitchOutputEvent
 {
-    public function __construct(
-        protected string $output = ''
-    )
+    public function __construct(protected string $output = '')
     {
     }
 

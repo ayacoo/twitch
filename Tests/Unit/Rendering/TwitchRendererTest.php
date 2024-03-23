@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Ayacoo\Tiktok\Tests\Unit\Rendering;
 
-use Ayacoo\Twitch\Event\ModifyTwitchOutputEvent;
 use Ayacoo\Twitch\Helper\TwitchHelper;
 use Ayacoo\Twitch\Rendering\TwitchRenderer;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class TwitchRendererTest extends UnitTestCase
