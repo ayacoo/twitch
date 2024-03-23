@@ -116,10 +116,10 @@ Documentation: https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOv
 
 ### 4.1 Versions and support
 
-| Twitch | TYPO3 | PHP        | Support / Development                |
-|--------|-------|------------|--------------------------------------|
-| 2.x    | 12.x  | 8.1 - 8.2  | features, bugfixes, security updates |
-| 1.x    | 11.x  | 7.4 - 8.0  | bugfixes, security updates           |
+| Twitch | TYPO3 | PHP       | Support / Development                |
+|--------|-------|-----------|--------------------------------------|
+| 2.x    | 12.x  | 8.1 - 8.3 | features, bugfixes, security updates |
+| 1.x    | 11.x  | 7.4 - 8.0 | bugfixes, security updates           |
 
 ### 4.2 Release Management
 
