@@ -213,8 +213,9 @@ class TwitchRenderer implements FileRendererInterface
             $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
             );
-            if (isset($extbaseFrameworkConfiguration['plugin.']['tx_twitch.'])) {
-                $privacy = (bool)$extbaseFrameworkConfiguration['plugin.']['tx_twitch.']['settings.']['privacy'] ?? false;
+            $extSettings = $extbaseFrameworkConfiguration['plugin.']['tx_twitch.']['settings.'] ?? null;
+            if (is_array($extSettings)) {
+                $privacy = (bool)$extSettings['privacy'] ?? false;
             }
             return $privacy;
         } catch (InvalidConfigurationTypeException $e) {
