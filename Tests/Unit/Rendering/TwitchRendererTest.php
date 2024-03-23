@@ -239,7 +239,9 @@ final class TwitchRendererTest extends UnitTestCase
     public function renderWithJavaScriptAndPrivacyReturnsTwitchHtml(): void
     {
         $iframe = '<iframe src="https://www.twitch.tv" />';
-        $expected = '<iframe data-name="script-twitch" data-src="https://player.twitch.tv/?video=123456&parent=&autoplay=false&muted=false" frameborder="0" allowfullscreen="true" scrolling="no" height="100" width="100"></iframe>';
+        $expected = '<iframe data-name="script-twitch" data-src="https://player.twitch.tv/?video=123456&parent=&';
+        $expected .= 'autoplay=false&muted=false" frameborder="0" allowfullscreen="true" scrolling="no" ';
+        $expected .= 'height="100" width="100"></iframe>';
 
         $fileResourceMock = $this->createMock(File::class);
         $fileResourceMock->expects(self::any())->method('getMimeType')->willReturn('video/twitch');
