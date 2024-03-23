@@ -65,12 +65,8 @@ class TwitchHelper extends AbstractOEmbedHelper
 
     public function transformUrlToFile($url, Folder $targetFolder)
     {
-        $videoId = null;
-        // - https://www.twitch.tv/videos/<code>
-        if (preg_match('%(?:.*)twitch\.tv\/videos\/([0-9]*)%i', $url, $match)) {
-            $videoId = $match[1];
-        }
-        if (empty($videoId)) {
+        $videoId = $this->getVideoId($url);
+        if ($videoId === null || $videoId === '' || $videoId === '0') {
             return null;
         }
 
@@ -93,7 +89,7 @@ class TwitchHelper extends AbstractOEmbedHelper
      * @throws ExtensionConfigurationExtensionNotConfiguredException
      * @throws ExtensionConfigurationPathDoesNotExistException
      */
-    public function getMetaData(File $file)
+    public function getMetaData(File $file): array
     {
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('twitch');
 
@@ -130,5 +126,16 @@ class TwitchHelper extends AbstractOEmbedHelper
         }
 
         return '';
+    }
+
+    protected function getVideoId(string $url): ?string
+    {
+        $videoId = null;
+        // - https://www.twitch.tv/videos/<code>
+        if (preg_match('%(?:.*)twitch\.tv\/videos\/([0-9]*)%i', $url, $match)) {
+            $videoId = $match[1];
+        }
+
+        return $videoId;
     }
 }

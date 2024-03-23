@@ -38,7 +38,7 @@ class FileRepository
 
         $statement = $queryBuilder
             ->select('*')
-            ->addSelectLiteral('RAND() AS randomnumber')
+            ->addSelectLiteral($randomFunction . ' AS randomnumber')
             ->from(self::SYS_FILE_TABLE)
             ->where(...$whereConstraints)
             ->orderBy('randomnumber');
