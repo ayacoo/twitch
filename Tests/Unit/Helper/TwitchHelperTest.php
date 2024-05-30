@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Ayacoo\Twitch\Tests\Unit\Helper;
 
 use Ayacoo\Twitch\Helper\TwitchHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\AbstractOEmbedHelper;
@@ -22,17 +24,13 @@ final class TwitchHelperTest extends UnitTestCase
         $this->subject = new TwitchHelper('twitch');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function isAbstractOEmbedHelper(): void
     {
         self::assertInstanceOf(AbstractOEmbedHelper::class, $this->subject);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getMetaDataWithOEmbedData()
     {
         $fileMock = $this->getMockBuilder(File::class)
@@ -71,9 +69,7 @@ final class TwitchHelperTest extends UnitTestCase
         self::assertEquals($expectedMetaData, $metaData);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getMetaDataWithoutOEmbedData()
     {
         $fileMock = $this->getMockBuilder(File::class)
@@ -101,9 +97,7 @@ final class TwitchHelperTest extends UnitTestCase
         self::assertEmpty($metaData);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getPublicUrlReturnsPublicUrl()
     {
         $videoId = '123456';
@@ -123,9 +117,7 @@ final class TwitchHelperTest extends UnitTestCase
         self::assertEquals($expectedUrl, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getOEmbedUrlReturnsUrl()
     {
         $mediaId = '123456';
@@ -138,10 +130,8 @@ final class TwitchHelperTest extends UnitTestCase
         self::assertEquals($expectedUrl, $result);
     }
 
-    /**
-     * @test
-     * @dataProvider getVideoIdDataProvider
-     */
+    #[Test]
+    #[DataProvider('getVideoIdDataProvider')]
     public function getVideoIdWithValidUrlReturnsAudioIdOrNull(string $url, mixed $expectedVideoId)
     {
         $params = [$url];

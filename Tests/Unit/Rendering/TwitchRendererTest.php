@@ -7,6 +7,8 @@ namespace Ayacoo\Tiktok\Tests\Unit\Rendering;
 use Ayacoo\Twitch\Event\ModifyTwitchOutputEvent;
 use Ayacoo\Twitch\Helper\TwitchHelper;
 use Ayacoo\Twitch\Rendering\TwitchRenderer;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -37,17 +39,13 @@ final class TwitchRendererTest extends UnitTestCase
         $this->subject = new TwitchRenderer($eventDispatcherMock, $configurationManagerMock);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hasFileRendererInterface(): void
     {
         self::assertInstanceOf(FileRendererInterface::class, $this->subject);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canRenderWithMatchingMimeTypeReturnsTrue(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['fal']['onlineMediaHelpers']['twitch'] = TwitchHelper::class;
@@ -61,9 +59,7 @@ final class TwitchRendererTest extends UnitTestCase
     }
 
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canRenderWithMatchingMimeTypeReturnsFalse(): void
     {
         $fileResourceMock = $this->createMock(File::class);
@@ -74,10 +70,8 @@ final class TwitchRendererTest extends UnitTestCase
         self::assertFalse($result);
     }
 
-    /**
-     * @test
-     * @dataProvider getPrivacySettingWithExistingConfigReturnsBooleanDataProvider
-     */
+    #[Test]
+    #[DataProvider('getPrivacySettingWithExistingConfigReturnsBooleanDataProvider')]
     public function getPrivacySettingWithExistingConfigReturnsBoolean(array $pluginConfig, bool $expected)
     {
         $eventDispatcherMock = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
@@ -136,9 +130,7 @@ final class TwitchRendererTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function renderWihtIframeAndWithoutPrivacyReturnsTwitchHtml(): void
     {
         $iframe = '<iframe src="https://player.twitch.tv/?video=123456&parent=&autoplay=false&muted=false" ';
@@ -176,9 +168,7 @@ final class TwitchRendererTest extends UnitTestCase
         self::assertSame($expected, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function renderWithIframeAndPrivacyReturnsTwitchHtml(): void
     {
         $iframe = '<iframe src="https://www.twitch.tv" />';
@@ -233,9 +223,7 @@ final class TwitchRendererTest extends UnitTestCase
         self::assertSame($expected, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function renderWithJavaScriptAndPrivacyReturnsTwitchHtml(): void
     {
         $iframe = '<iframe src="https://www.twitch.tv" />';
@@ -290,9 +278,7 @@ final class TwitchRendererTest extends UnitTestCase
         self::assertSame($expected, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function renderJavaScriptGeneratesExpectedTwitchEmbedCode(): void
     {
         $videoId = 'testVideo123';

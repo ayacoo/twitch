@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-      - quality
+      - v3
   pull_request:
 permissions:
   contents: read
