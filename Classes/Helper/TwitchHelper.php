@@ -115,6 +115,12 @@ class TwitchHelper extends AbstractOEmbedHelper
         $properties = $file->getProperties();
         $previewImageUrl = $properties['twitch_thumbnail'] ?? '';
 
+        // get preview from twitch
+        if ($previewImageUrl === '') {
+            $oEmbed = $this->getOEmbedData($this->getOnlineMediaId($file));
+            $previewImageUrl = $oEmbed['thumbnail_url'];
+        }
+
         $videoId = $this->getOnlineMediaId($file);
         $temporaryFileName = $this->getTempFolderPath() . $file->getExtension() . '_' . md5($videoId) . '.jpg';
 
