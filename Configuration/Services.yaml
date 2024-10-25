@@ -10,12 +10,6 @@ services:
       - '../Classes/Domain/Model/*'
       - '../Classes/Helper/*'
 
-  Ayacoo\Twitch\EventListener\FileListEventListener:
-    tags:
-      - name: event.listener
-        identifier: 'ayacoo/twitch/filelist-listener'
-        event: TYPO3\CMS\Filelist\Event\ProcessFileListActionsEvent
-
   Ayacoo\Twitch\Command\UpdateMetadataCommand:
     tags:
       - name: 'console.command'

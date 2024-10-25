@@ -49,7 +49,7 @@ class TwitchPreviewRenderer extends StandardContentPreviewRenderer
 
                     // use original thumbnail and control the size
                     $image = $fileObject->getMetaData()->offsetGet('twitch_thumbnail') ?? '';
-                    $content .= '<br/><img style="height: 150px;" src="' . htmlspecialchars($image) . '" />';
+                    $content .= '<br/><img style="height: 150px;" src="' . htmlspecialchars((string) $image) . '" />';
 
                     $content .= '</a>';
                     $content .= '<hr/>';
