@@ -118,7 +118,7 @@ class TwitchHelper extends AbstractOEmbedHelper
         // get preview from twitch
         if ($previewImageUrl === '') {
             $oEmbed = $this->getOEmbedData($this->getOnlineMediaId($file));
-            $previewImageUrl = $oEmbed['thumbnail_url'];
+            $previewImageUrl = $oEmbed['thumbnail_url'] ?? '';
         }
 
         $videoId = $this->getOnlineMediaId($file);
