@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ayacoo\Tiktok\Tests\Unit\Rendering;
+namespace Ayacoo\Twitch\Tests\Unit\Rendering;
 
 use Ayacoo\Twitch\Event\ModifyTwitchOutputEvent;
 use Ayacoo\Twitch\Helper\TwitchHelper;
