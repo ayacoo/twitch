@@ -9,10 +9,3 @@ services:
     exclude:
       - '../Classes/Domain/Model/*'
       - '../Classes/Helper/*'
-
-  Ayacoo\Twitch\Command\UpdateMetadataCommand:
-    tags:
-      - name: 'console.command'
-        command: 'twitch:updateMetadata'
-        description: 'Updates the Twitch metadata'
-        schedulable: true

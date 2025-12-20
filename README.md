@@ -124,13 +124,9 @@ class TwitchOutputEventListener
 In the backend, the preview is used by TextMediaRenderer. For online media, this
 only displays the provider's icon, in this case twitch. If you want to display
 the thumbnail, for example, you need your own renderer that overwrites
-Textmedia. An example renderer is available in the project. Caution: This
-overwrites all text media elements, so only use this renderer as a basis.
+Textmedia.
 
-You register a renderer in the TCA `Configuration/TCA/Overrides/tt_content.php`
-with `$GLOBALS['TCA']['tt_content']['types']['textmedia']['previewRenderer'] = \Ayacoo\Twitch\Rendering\TwitchPreviewRenderer::class;`
-
-Documentation: https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/ContentElements/CustomBackendPreview.html
+TBD Event listener
 
 ### 3.3 Content security policy
 
@@ -149,7 +145,8 @@ https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/ContentS
 
 | Twitch | TYPO3 | PHP       | Support / Development                |
 |--------|-------|-----------|--------------------------------------|
-| 3.x    | 13.x  | 8.2 - 8.4 | features, bugfixes, security updates |
+| 4.x    | 14.x  | 8.2 - 8.5 | features, bugfixes, security updates |
+| 3.x    | 13.x  | 8.2 - 8.5 | bugfixes, security updates           |
 | 2.x    | 12.x  | 8.1 - 8.4 | bugfixes, security updates           |
 | 1.x    | 11.x  | 7.4 - 8.0 | bugfixes, security updates           |
 
