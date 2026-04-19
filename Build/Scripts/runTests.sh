@@ -563,6 +563,7 @@ case ${TEST_SUITE} in
                 SUITE_EXIT_CODE=$?
                 ;;
             postgres)
+                POSTGRES_TMPFS="/var/lib/postgresql/data"
                 if [[ ${DBMS_VERSION} -eq 18 ]]; then
                     POSTGRES_TMPFS="/var/lib/postgresql"
                 fi
