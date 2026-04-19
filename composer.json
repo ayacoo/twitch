@@ -2,7 +2,7 @@
 	"name": "ayacoo/twitch",
 	"version": "4.0.0",
 	"type": "typo3-cms-extension",
-	"description": "Provides a Twitch online media helper",
+	"description": "Twitch - Provides a Twitch online media helper",
 	"homepage": "https://www.ayacoo.de",
 	"authors": [
 		{
