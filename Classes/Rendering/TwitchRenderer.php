@@ -14,10 +14,11 @@ use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperInterface;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Resource\Rendering\FileRendererInterface;
+use TYPO3\CMS\Core\Security\ContentSecurityPolicy\ConsumableNonce;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
+use TYPO3\CMS\Extbase\Configuration\Exception\NoServerRequestGivenException;
 
 /**
  * Twitch renderer class
@@ -172,6 +173,16 @@ class TwitchRenderer implements FileRendererInterface
      */
     protected function renderJavaScript(array $options, string $videoId, int|string $width, int|string $height): string
     {
+        $nonce = '';
+        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
+        if ($request !== null) {
+            /** @var ConsumableNonce|null $nonce */
+            $nonceAttribute = $request->getAttribute('nonce');
+            if ($nonceAttribute instanceof ConsumableNonce) {
+                $nonce = $nonceAttribute->consume();
+            }
+        }
+
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->addJsFile('https://player.twitch.tv/js/embed/v1.js');
 
@@ -190,7 +201,7 @@ class TwitchRenderer implements FileRendererInterface
 
         $uniqueId = uniqid();
         return '<div id="twitch-embed' . $uniqueId . '"></div>
-            <script type="text/javascript">
+            <script type="text/javascript" nonce="' . $nonce . '">
               var options = {
                 width: ' . $width . ',
                 height: ' . $height . ',
@@ -218,7 +229,7 @@ class TwitchRenderer implements FileRendererInterface
                 $privacy = (bool)$extSettings['privacy'] ?? false;
             }
             return $privacy;
-        } catch (InvalidConfigurationTypeException $e) {
+        } catch (NoServerRequestGivenException $e) {
             return false;
         }
     }

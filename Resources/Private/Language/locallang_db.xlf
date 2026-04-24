@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:twitch/Resources/Private/Language/locallang_db.xlf" product-name="twitch">
+    <body>
+      <trans-unit id="tab.twitch">
+        <source>Twitch</source>
+      </trans-unit>
+      <trans-unit id="sys_file_metadata.twitch_thumbnail">
+        <source>Twitch thumbnail URL</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
